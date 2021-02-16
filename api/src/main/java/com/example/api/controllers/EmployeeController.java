@@ -33,17 +33,19 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public String getAll() throws InterruptedException{
-        Message msg = rSocketClient.requestResponse();
-        return "El mensaje recibido ha sido: "+msg;
+        Message msg = rSocketClient.requestResponse("getAll", "");
+        return "El mensaje recibido ha sido: "+msg.getData();
     }
 
     @GetMapping("/employees/{id}")
-    public String getById(@PathVariable("id") Integer id)  {
-        return "Accedemos a getById(): "+id;
+    public String getById(@PathVariable("id") String id) throws InterruptedException {
+        Message msg = rSocketClient.requestResponse("getById", id);
+        return "Accedemos a getById(): " + msg.getData();
     }
 
     @PostMapping("/employees")
-    public String addEmployee(@RequestBody Employee newEmployee){
-        return "Accedemos a addEmployee(): "+newEmployee;
+    public String addEmployee(@RequestBody Employee newEmployee) throws InterruptedException {
+        Message msg = rSocketClient.requestResponse("addEmployee", newEmployee.toString());
+        return "Accedemos a addEmployee(): "+msg.getData();
     }
 }

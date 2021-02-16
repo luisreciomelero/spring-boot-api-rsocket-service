@@ -24,12 +24,12 @@ public class RSocketClientEmploy implements IRSocketClient{
 
 
     //@ShellMethod("Send one request. One response will be printed.")
-    public Message requestResponse() throws InterruptedException {
+    public Message requestResponse(String interaction, String data) throws InterruptedException {
         log.info("\nSending one request. Waiting for one response...");
 
         Message message = this.rSocketRequester
                 .route("request-response")
-                .data(new Message("Client", "Request"))
+                .data(new Message("Client", interaction, data))
                 .retrieveMono(Message.class)
                 .block();
         log.info("\nResponse was: {}", message);
