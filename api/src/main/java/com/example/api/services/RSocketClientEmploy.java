@@ -1,37 +1,29 @@
-package com.example.api.clients;
+package com.example.api.services;
 
-import java.time.Duration;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.rsocket.RSocketRequester;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
+import org.springframework.stereotype.Component;
 
 import com.example.api.messages.Message;
 
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
 
 @Slf4j
-@ShellComponent
-public class RSocketShellClient  {
+@Component("cliente-componente")
+public class RSocketClientEmploy implements IRSocketClient{
     /*
      * Con el objeto RSocketRequester realizaremos las peticiones
      * al servidor.
      */
     private final RSocketRequester rSocketRequester;
 
-    @Autowired
-    public RSocketShellClient(RSocketRequester.Builder rsocketRequesterBuilder) {
+    public RSocketClientEmploy(RSocketRequester.Builder rsocketRequesterBuilder) {
         this.rSocketRequester = rsocketRequesterBuilder
                 .tcp("localhost",7000);
 
     }
 
 
-
-    @ShellMethod("Send one request. One response will be printed.")
+    //@ShellMethod("Send one request. One response will be printed.")
     public Message requestResponse() throws InterruptedException {
         log.info("\nSending one request. Waiting for one response...");
 
@@ -45,4 +37,3 @@ public class RSocketShellClient  {
     }
 
 }
-
