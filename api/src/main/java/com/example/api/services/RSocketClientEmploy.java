@@ -4,6 +4,7 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Component;
 
 import com.example.api.messages.Message;
+import com.example.api.models.Employee;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,7 @@ public class RSocketClientEmploy implements IRSocketClient{
 
 
     //@ShellMethod("Send one request. One response will be printed.")
-    public Message requestResponse(String interaction, String data) throws InterruptedException {
+    public Message requestResponse(String interaction, Employee data) throws InterruptedException {
         log.info("\nSending one request. Waiting for one response...");
 
         Message message = this.rSocketRequester
@@ -33,6 +34,20 @@ public class RSocketClientEmploy implements IRSocketClient{
                 .retrieveMono(Message.class)
                 .block();
         log.info("\nResponse was: {}", message);
+        return message;
+    }
+
+    public Message requestResponse(String interaction, Long data) throws InterruptedException {
+        log.info("\nSending one request. Waiting for one response...");
+
+        Message message = this.rSocketRequester
+                .route("request-response")
+                .data(new Message("Client", interaction, data))
+                .retrieveMono(Message.class)
+                .block();
+        log.info("\nResponse was: {}", message);
+        log.info("tipo: " + message.getEmployees().get(0).getClass().getName());
+
         return message;
     }
 

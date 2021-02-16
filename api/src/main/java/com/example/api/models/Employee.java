@@ -1,26 +1,55 @@
 package com.example.api.models;
 
 
-import java.util.Objects;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import lombok.Builder;
-import lombok.Data;
-
-/*
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-*/
-//@Entity
-@Data
-@Builder
+@JsonSerialize
 public class Employee {
 
-    //private @Id @GeneratedValue Long id;
-    private final Long id;
-    private final String firstName;
-    private final String lastName;
-    private final String role;
+    private Long id;
+    private  String firstName;
+    private  String lastName;
+    private  String role;
 
+    public Employee(String firstName, String lastName, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
 
+    public Employee(){
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

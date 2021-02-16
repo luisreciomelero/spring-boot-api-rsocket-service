@@ -22,6 +22,10 @@ public class Employee {
         this.role = role;
     }
 
+    public Employee(){
+
+    }
+
     public Long getId() {
         return id;
     }
