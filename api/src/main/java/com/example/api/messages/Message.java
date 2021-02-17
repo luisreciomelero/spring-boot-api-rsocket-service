@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Message {
     private String origin;
     private String interaction;
-    private Long data;
+    private Object data;
     private Employee employee;
     private List<String> employees;
     private long index;
@@ -43,8 +43,10 @@ public class Message {
         this.origin = origin;
         this.interaction = interaction;
         this.index = 0;
-        this.data = data;
+        this.data = employee;
     }
+
+
 
 
 

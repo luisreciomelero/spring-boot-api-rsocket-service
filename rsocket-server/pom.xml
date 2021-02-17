@@ -62,6 +62,10 @@
             <artifactId>mapstruct</artifactId>
             <version>1.4.1.Final</version>
         </dependency>
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+        </dependency>
 
     </dependencies>
 

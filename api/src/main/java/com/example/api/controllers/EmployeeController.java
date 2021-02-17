@@ -31,6 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class EmployeeController {
 
     private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+
     @Autowired
     //@Qualifier("cliente-componente")
     @Qualifier("cliente-bean-conf")
@@ -57,9 +58,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public String addEmployee(@RequestBody Employee newEmployee) throws InterruptedException {
+    public List<Employee> addEmployee(@RequestBody Employee newEmployee) throws InterruptedException, JsonProcessingException {
+        logger.info("Employee: " + employeeMapper.EmployeeToString(newEmployee));
         Message msg = rSocketClient.requestResponse("addEmployee", newEmployee);
-        return "Accedemos a addEmployee(): "+msg.getData();
+        return formatList(msg);
     }
 
     private List<Employee> formatList(Message msg){

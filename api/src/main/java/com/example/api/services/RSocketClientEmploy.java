@@ -1,8 +1,10 @@
 package com.example.api.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Component;
 
+import com.example.api.mappers.IMapper;
 import com.example.api.messages.Message;
 import com.example.api.models.Employee;
 
@@ -16,6 +18,9 @@ public class RSocketClientEmploy implements IRSocketClient{
      * al servidor.
      */
     private final RSocketRequester rSocketRequester;
+    
+    @Autowired
+    private IMapper employeemapper;
 
     public RSocketClientEmploy(RSocketRequester.Builder rsocketRequesterBuilder) {
         this.rSocketRequester = rsocketRequesterBuilder
@@ -25,12 +30,12 @@ public class RSocketClientEmploy implements IRSocketClient{
 
 
     //@ShellMethod("Send one request. One response will be printed.")
-    public Message requestResponse(String interaction, Employee data) throws InterruptedException {
+    public Message requestResponse(String interaction, Employee employee) throws InterruptedException {
         log.info("\nSending one request. Waiting for one response...");
 
         Message message = this.rSocketRequester
                 .route("request-response")
-                .data(new Message("Client", interaction, data))
+                .data(new Message("Client", interaction, employee))
                 .retrieveMono(Message.class)
                 .block();
         log.info("\nResponse was: {}", message);

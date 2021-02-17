@@ -1,5 +1,6 @@
 package io.pivotal.msCRUDEmployee.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class EmployeeRSocketController {
     private IService employService;
 
     @MessageMapping("request-response")
-    Mono<Message> requestResponse(final Message request) throws JsonProcessingException {
+    Mono<Message> requestResponse(final Message request) throws IOException {
         log.info("Received request-response request: {}", request);
         List<String> employees = employService.doInteraction(request.getInteraction(), request.getData());
         return Mono.just(new Message(SERVER, request.getInteraction(), employees));

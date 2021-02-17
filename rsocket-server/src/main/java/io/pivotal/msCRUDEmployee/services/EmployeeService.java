@@ -3,7 +3,9 @@ package io.pivotal.msCRUDEmployee.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,7 +35,7 @@ public class EmployeeService implements IService{
     private IMapper employMapper;
 
     @Override
-    public List<String> doInteraction(String interaction, Object data) throws JsonProcessingException {
+    public List<String> doInteraction(String interaction, Object data) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         List<String> employees = new ArrayList<String>();
         switch (interaction){
@@ -58,12 +60,21 @@ public class EmployeeService implements IService{
                     Optional<Employee> opEmployee = repository.findById((Long) data);
                     if (opEmployee.isPresent()) {
                         Employee employee = opEmployee.get();
-                        String jsonEmployee = mapper.writeValueAsString(employee);
+                        String jsonEmployee = employMapper.EmployeeToString(employee);
                         employees.add(jsonEmployee);
                         return employees;
                     }
                 }
                 break;
+
+            case "addEmployee":
+                if(data instanceof Map){
+                    Employee employee = employMapper.DecodeEmployee(data);
+                    repository.save(employee);
+                    employees.add(employMapper.EmployeeToString(employee));
+                }
+
+                return employees;
 
             default:
                 throw new IllegalStateException("Unexpected value: " + interaction);
